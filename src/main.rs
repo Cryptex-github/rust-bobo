@@ -29,7 +29,7 @@ async fn main() {
         .configure(|c| c.prefix("ovo "))
         .group(&GENERAL_GROUP);
     
-    let intents = GatewayIntents::all()
+    let intents = GatewayIntents::all();
 
     // Login with a bot token from the environment
     let token = env::var("DISCORD_TOKEN").expect("token");
