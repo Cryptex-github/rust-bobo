@@ -10,6 +10,8 @@ use serenity::framework::standard::{
     }
 };
 
+use songbird::SerenityInit;
+
 use serenity::client::bridge::gateway::GatewayIntents;
 
 use std::env;
@@ -37,6 +39,7 @@ async fn main() {
         .event_handler(Handler)
         .framework(framework)
         .intents(intents)
+        .register_songbird()
         .await
         .expect("Error creating client");
 
