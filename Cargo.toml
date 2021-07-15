@@ -23,6 +23,5 @@ features = [
     "standard_framework",
     "utils",
     "voice",
-    "native_tls_tokio_0_2_backend",
 ]
 version = "0.10"
