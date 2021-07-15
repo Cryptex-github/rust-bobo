@@ -218,7 +218,7 @@ async fn join(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let connect_to = match args.single::<u64>() {
         Ok(id) => ChannelId(id),
         Err(_) => {
-            msg.reply(ctx, "Requires a valid voice channel ID be given").await;
+            msg.reply(ctx, "Requires a valid voice channel ID be given").await?;
 
             return Ok(());
         },
@@ -286,7 +286,7 @@ async fn leave(ctx: &Context, msg: &Message) -> CommandResult {
 
     if has_handler {
         if let Err(e) = manager.remove(guild_id).await {
-            msg.channel_id.say(&ctx.http, format!("Failed: {:?}", e)).await;
+            msg.channel_id.say(&ctx.http, format!("Failed: {:?}", e)).await?;
         }
 
         msg.channel_id.say(&ctx.http,"Left voice channel").await?;
