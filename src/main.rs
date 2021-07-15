@@ -30,7 +30,7 @@ impl EventHandler for Handler {}
 #[tokio::main]
 async fn main() {
     let framework = StandardFramework::new()
-        .configure(|c| c.prefix("ovo "))
+        .configure(|c| c.prefix("rbobo "))
         .group(&GENERAL_GROUP);
     
     let intents = GatewayIntents::all();
