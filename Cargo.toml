@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 songbird = "0.1"
+eval = "0.4"
 
 [dependencies.serenity]
 default-features = false
