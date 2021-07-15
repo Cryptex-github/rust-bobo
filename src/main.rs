@@ -11,11 +11,9 @@ use serenity::framework::standard::{
 use serenity::{
     model::{
         channel::Message,
-        gateway::Ready,
         id::ChannelId,
         misc::Mentionable
     },
-    Result as SerenityResult,
 };
 
 use songbird::{
