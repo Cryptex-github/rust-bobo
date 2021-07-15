@@ -10,6 +10,8 @@ use serenity::framework::standard::{
     }
 };
 
+use serenity::client::bridge::gateway::GatewayIntents;
+
 use std::env;
 
 #[group]
@@ -26,12 +28,15 @@ async fn main() {
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("ovo "))
         .group(&GENERAL_GROUP);
+    
+    let intents = GatewayIntents::all()
 
     // Login with a bot token from the environment
     let token = env::var("DISCORD_TOKEN").expect("token");
     let mut client = Client::builder(token)
         .event_handler(Handler)
         .framework(framework)
+        .intents(intents)
         .await
         .expect("Error creating client");
 
