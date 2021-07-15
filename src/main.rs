@@ -22,8 +22,11 @@ use std::env;
 
 #[group]
 #[commands(ping)]
-#[commands(eval)]
 struct General;
+
+#[group]
+#[commands(eval)]
+struct Dev;
 
 struct Handler;
 
@@ -36,7 +39,8 @@ async fn main() {
     owners.insert(UserId(590323594744168494));
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("rbobo ").owners(owners))
-        .group(&GENERAL_GROUP);
+        .group(&GENERAL_GROUP)
+        .group(&DEV_GROUP);
     
     let intents = GatewayIntents::all();
 
