@@ -230,7 +230,7 @@ async fn join(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
     let manager = songbird::get(ctx).await
         .expect("Songbird Voice client placed in at initialisation.").clone();
 
-    let (handler_lock, conn_result) = manager.join(guild_id, connect_to).await;
+    let (handler_lock, conn_result) = manager.join(guild_id, connect_to).await?;
 
     if let Ok(_) = conn_result {
         // NOTE: this skips listening for the actual connection result.
@@ -266,9 +266,9 @@ async fn join(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
             Receiver::new(),
         );
 
-        msg.channel_id.say(&ctx.http, &format!("Joined {}", connect_to.mention())).await;
+        msg.channel_id.say(&ctx.http, &format!("Joined {}", connect_to.mention())).await?;
     } else {
-        msg.channel_id.say(&ctx.http, "Error joining the channel").await;
+        msg.channel_id.say(&ctx.http, "Error joining the channel").await?;
     }
 
     Ok(())
@@ -289,9 +289,9 @@ async fn leave(ctx: &Context, msg: &Message) -> CommandResult {
             msg.channel_id.say(&ctx.http, format!("Failed: {:?}", e)).await;
         }
 
-        msg.channel_id.say(&ctx.http,"Left voice channel").await;
+        msg.channel_id.say(&ctx.http,"Left voice channel").await?;
     } else {
-        msg.reply(ctx, "Not in a voice channel").await;
+        msg.reply(ctx, "Not in a voice channel").await?;
     }
 
     Ok(())
