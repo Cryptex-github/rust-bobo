@@ -10,7 +10,10 @@ use serenity::framework::standard::{
     }
 };
 
-use songbird::SerenityInit;
+use songbird::{
+    driver::{Config as DriverConfig, CryptoMode, DecodeMode},
+    SerenityInit, Songbird,
+};
 use eval::Expr;
 
 use serenity::framework::standard::Args;
@@ -44,6 +47,13 @@ async fn main() {
         .group(&DEV_GROUP);
     
     let intents = GatewayIntents::all();
+    
+    let songbird = Songbird::serenity();
+    songbird.set_config(
+        DriverConfig::default()
+            .decode_mode(DecodeMode::Decode)
+            .crypto_mode(CryptoMode::Normal),
+    );
 
     // Login with a bot token from the environment
     let token = env::var("DISCORD_TOKEN").expect("token");
@@ -51,7 +61,7 @@ async fn main() {
         .event_handler(Handler)
         .framework(framework)
         .intents(intents)
-        .register_songbird()
+        .register_songbird_with(songbird)
         .await
         .expect("Error creating client");
 
