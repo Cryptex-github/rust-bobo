@@ -18,6 +18,7 @@ use serenity::model::id::UserId;
 use serenity::client::bridge::gateway::GatewayIntents;
 
 use std::collections::hash_set::HashSet;
+use std::time::Instant;
 use std::env;
 
 #[group]
@@ -62,7 +63,12 @@ async fn main() {
 
 #[command]
 async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
-    msg.reply(ctx, "Pong :O").await?;
+    let api_latency = {
+        let instant = Instant::now();
+        msg.channel_id.broadcast_typing(&ctx.http).await?;
+        instant.elapsed().as_millis() as f64
+    };
+    msg.reply(ctx, format!("Pong :O API latency is {}", api_latency)).await?;
 
     Ok(())
 }
