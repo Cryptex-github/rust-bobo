@@ -14,8 +14,10 @@ use songbird::SerenityInit;
 use eval::Expr;
 
 use serenity::framework::standard::Args;
+use serenity::model::id::UserId;
 use serenity::client::bridge::gateway::GatewayIntents;
 
+use std::collections::hash_set::HashSet;
 use std::env;
 
 #[group]
@@ -30,8 +32,10 @@ impl EventHandler for Handler {}
 
 #[tokio::main]
 async fn main() {
+    let mut owners = HashSet::new();
+    owners.insert(UserId(590323594744168494));
     let framework = StandardFramework::new()
-        .configure(|c| c.prefix("rbobo "))
+        .configure(|c| c.prefix("rbobo ").owners(owners))
         .group(&GENERAL_GROUP);
     
     let intents = GatewayIntents::all();
