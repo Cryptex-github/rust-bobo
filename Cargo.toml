@@ -23,5 +23,6 @@ features = [
     "standard_framework",
     "utils",
     "voice",
+    "native_tls_backend",
 ]
 version = "0.10"
