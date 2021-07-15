@@ -70,12 +70,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 #[command]
 #[owners_only]
 async fn eval(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
-    let mut result = Expr::new(args.rest()).value("msg", msg).exec();
-    if result.is_ok() {
-        result = result.ok()
-    } else {
-        result = result.err()
-    }
+    let result = Expr::new(args.rest()).value("msg", msg).exec().unwrap_or_default();
     msg.reply(ctx, format!("{:?}", result)).await?;
     
     Ok(())
