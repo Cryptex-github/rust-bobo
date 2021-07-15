@@ -103,13 +103,13 @@ impl VoiceEventHandler for Receiver {
                 // containing the decoded data.
                 if let Some(audio) = audio {
                     // println!("Audio packet's first 5 samples: {:?}", audio.get(..5.min(audio.len())));
-                    println!(
-                        "Audio packet sequence {:05} has {:04} bytes (decompressed from {}), SSRC {}",
-                        packet.sequence.0,
-                        audio.len() * std::mem::size_of::<i16>(),
-                        packet.payload.len(),
-                        packet.ssrc,
-                    );
+                    // println!(
+                    //    "Audio packet sequence {:05} has {:04} bytes (decompressed from {}), SSRC {}",
+                    //    packet.sequence.0,
+                    //    audio.len() * std::mem::size_of::<i16>(),
+                    //    packet.payload.len(),
+                    //    packet.ssrc,
+                    // );
                 } else {
                     println!("RTP packet, but no audio. Driver may not be configured to decode.");
                 }
