@@ -45,6 +45,7 @@ struct General;
 #[commands(eval)]
 struct Dev;
 
+#[group]
 #[commands(join, leave)]
 struct Voice;
 
