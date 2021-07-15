@@ -11,6 +11,7 @@ use serenity::framework::standard::{
 };
 
 use songbird::SerenityInit;
+use eval::Expr;
 
 use serenity::framework::standard::Args;
 use serenity::client::bridge::gateway::GatewayIntents;
