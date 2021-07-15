@@ -102,7 +102,7 @@ impl VoiceEventHandler for Receiver {
                 // An event which fires for every received audio packet,
                 // containing the decoded data.
                 if let Some(audio) = audio {
-                    println!("Audio packet's first 5 samples: {:?}", audio.get(..5.min(audio.len())));
+                    // println!("Audio packet's first 5 samples: {:?}", audio.get(..5.min(audio.len())));
                     println!(
                         "Audio packet sequence {:05} has {:04} bytes (decompressed from {}), SSRC {}",
                         packet.sequence.0,
@@ -117,7 +117,7 @@ impl VoiceEventHandler for Receiver {
             Ctx::RtcpPacket {packet, payload_offset, payload_end_pad} => {
                 // An event which fires for every received rtcp packet,
                 // containing the call statistics and reporting information.
-                println!("RTCP packet received: {:?}", packet);
+                // println!("RTCP packet received: {:?}", packet);
             },
             Ctx::ClientConnect(
                 ClientConnect {audio_ssrc, video_ssrc, user_id, ..}
