@@ -20,11 +20,8 @@ use std::env;
 
 #[group]
 #[commands(ping)]
-struct General;
-
-#[group]
 #[commands(eval)]
-struct Dev;
+struct General;
 
 struct Handler;
 
