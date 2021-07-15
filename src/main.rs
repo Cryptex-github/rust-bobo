@@ -12,6 +12,7 @@ use serenity::framework::standard::{
 
 use songbird::SerenityInit;
 
+use serenity::framework::standard::Args;
 use serenity::client::bridge::gateway::GatewayIntents;
 
 use std::env;
@@ -55,3 +56,12 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 
     Ok(())
 }
+
+#[command]
+async fn eval(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
+    let result = Expr::new(args.rest()).value("ctx", ctx).value("msg", msg).exec();
+    msg.reply(ctx, format!("{:?}", result)).await?;
+    
+    Ok(())
+}
+
