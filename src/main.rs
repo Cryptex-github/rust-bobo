@@ -35,7 +35,8 @@ impl EventHandler for Handler {}
 async fn main() {
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("rbobo "))
-        .group(&GENERAL_GROUP);
+        .group(&GENERAL_GROUP)
+        .group(&DEV_GROUP);
     
     let intents = GatewayIntents::all();
 
