@@ -60,7 +60,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 
 #[command]
 async fn eval(ctx: &Context, msg: &Message, args: Args) -> CommandResult {
-    let result = Expr::new(args.rest()).value("ctx", ctx).value("msg", msg).exec();
+    let result = Expr::new(args.rest()).value("msg", msg).exec();
     msg.reply(ctx, format!("{:?}", result)).await?;
     
     Ok(())
