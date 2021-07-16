@@ -27,6 +27,11 @@ use songbird::{
 };
 use eval::Expr;
 
+use reqwest;
+
+use photon_rs::native::open_image_from_bytes;
+use photon_rs::channels::invert;
+
 use serenity::framework::standard::Args;
 use serenity::model::id::UserId;
 use serenity::client::bridge::gateway::GatewayIntents;
@@ -35,8 +40,10 @@ use std::collections::hash_set::HashSet;
 use std::time::Instant;
 use std::env;
 
+let reqwest_client = reqwest::Client::new();
+
 #[group]
-#[commands(ping)]
+#[commands(ping, invert)]
 struct General;
 
 #[group]
@@ -200,6 +207,17 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 
     Ok(())
 }
+
+#[command]
+async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
+    let avatar_url = msg.user.avatar_url.replace(".webp", ".png");
+    let content = reqwest_client.get(url).await?.bytes().await?;
+    let mut image = open_image_from_bytes(content);
+    invert(image);
+    let byt = image_to_bytes(image);
+    let files = vec![byt];
+    message.channel_id.send_files(files, &ctx.http).await?;
+    
 
 #[command]
 #[owners_only]
