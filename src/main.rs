@@ -29,6 +29,7 @@ use eval::Expr;
 
 use reqwest;
 
+use photon_rs::native::image_to_bytes;
 use photon_rs::native::open_image_from_bytes;
 use photon_rs::channels::invert;
 
