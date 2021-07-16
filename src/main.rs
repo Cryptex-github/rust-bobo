@@ -222,6 +222,8 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let files = vec![byt];
     message.channel_id.send_files(files, &ctx.http).await?;
     
+    Ok(())
+}
 
 #[command]
 #[owners_only]
