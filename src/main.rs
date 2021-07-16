@@ -43,8 +43,12 @@ use std::env;
 let reqwest_client = reqwest::Client::new();
 
 #[group]
-#[commands(ping, invert)]
+#[commands(ping)]
 struct General;
+
+#[group]
+#[commands(invert)]
+struct Image;
 
 #[group]
 #[commands(eval)]
