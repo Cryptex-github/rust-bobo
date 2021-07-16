@@ -212,13 +212,13 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 
 #[command]
 async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
-    let avatar_url = msg.author.avatar_url().to_string().replace(".webp", ".png");
+    let avatar_url = msg.author.avatar_url().replace(".webp", ".png");
     let content = reqwest::get(url).await?.bytes().await?;
     let mut image = open_image_from_bytes(content).unwrap();
     invert(&mut image);
     let byt = image_to_bytes(image);
     let files = vec![byt];
-    message.channel_id.send_files(files, &ctx.http).await?;
+    msg.channel_id.send_files(files, &ctx.http).await?;
     
     Ok(())
 }
