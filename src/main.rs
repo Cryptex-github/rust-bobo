@@ -218,8 +218,8 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let mut image = open_image_from_bytes(&content).unwrap();
     photon_invert(&mut image);
     let byt = image_to_bytes(image);
-    let files = vec![byt];
-    msg.channel_id.send_files(files, &ctx.http).await?;
+    let files = vec![(byt, "inverted.png")];
+    msg.channel_id.send_files(&ctx.http, files).await?;
     
     Ok(())
 }
