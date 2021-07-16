@@ -31,7 +31,7 @@ use reqwest;
 
 use photon_rs::native::image_to_bytes;
 use photon_rs::native::open_image_from_bytes;
-use photon_rs::channels::invert;
+use photon_rs::channels::invert as photon_invert;
 
 use serenity::framework::standard::Args;
 use serenity::model::id::UserId;
