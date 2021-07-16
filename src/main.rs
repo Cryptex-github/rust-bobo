@@ -215,7 +215,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let avatar_url = msg.author.avatar_url().replace(".webp", ".png");
     let content = reqwest::get(url).await?.bytes().await?;
-    let mut image = open_image_from_bytes(content).unwrap();
+    let mut image = open_image_from_bytes(&content).unwrap();
     invert(&mut image);
     let byt = image_to_bytes(image);
     let files = vec![byt];
