@@ -40,8 +40,6 @@ use std::collections::hash_set::HashSet;
 use std::time::Instant;
 use std::env;
 
-let reqwest_client = reqwest::Client::new();
-
 #[group]
 #[commands(ping)]
 struct General;
@@ -215,7 +213,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 #[command]
 async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let avatar_url = msg.user.avatar_url.replace(".webp", ".png");
-    let content = reqwest_client.get(url).await?.bytes().await?;
+    let content = reqwest::get(url).await?.bytes().await?;
     let mut image = open_image_from_bytes(content);
     invert(image);
     let byt = image_to_bytes(image);
