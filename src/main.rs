@@ -228,7 +228,7 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let encoder = PngEncoder::new(&mut buffer);
     encoder.encode(byt.as_bytes(), image.get_width(), image.get_height(), ColorType::Rgba8);
     let encoded_image = buffer.into_inner();
-    let files = vec![(&encoded_image, "inverted.png")];
+    let files = vec![(&encoded_image.as_bytes(), "inverted.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m).await?;
     
     Ok(())
