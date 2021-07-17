@@ -29,6 +29,7 @@ use eval::Expr;
 
 use reqwest;
 
+use image::codecs::png::PngEncoder;
 use image::EncodableLayout;
 
 use photon_rs::native::image_to_bytes;
@@ -39,6 +40,7 @@ use serenity::framework::standard::Args;
 use serenity::model::id::UserId;
 use serenity::client::bridge::gateway::GatewayIntents;
 
+use std::io::Cursor
 use std::collections::hash_set::HashSet;
 use std::time::Instant;
 use std::env;
@@ -221,7 +223,11 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let mut image = open_image_from_bytes(&content).unwrap();
     photon_invert(&mut image);
     let byt = image_to_bytes(image);
-    let files = vec![(byt.as_bytes(), "inverted.png")];
+    let mut buffer = Cursor::new(vec!{]);
+    let encoder = PngEncoder::new(&mut buffer);
+    encoder.write(byt.as_bytes(), image.get_width(), image.get_height())
+    let encoded_image = buffer.into_inner();
+    let files = vec[(encoded_image, "inverted.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m).await?;
     
     Ok(())
