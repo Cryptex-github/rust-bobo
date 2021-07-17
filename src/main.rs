@@ -223,7 +223,7 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let mut image = open_image_from_bytes(&content).unwrap();
     photon_invert(&mut image);
     let byt = image_to_bytes(image);
-    let mut buffer = Cursor::new(vec!{]);
+    let mut buffer = Cursor::new(vec![]);
     let encoder = PngEncoder::new(&mut buffer);
     encoder.write(byt.as_bytes(), image.get_width(), image.get_height())
     let encoded_image = buffer.into_inner();
