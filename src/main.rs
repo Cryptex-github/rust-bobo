@@ -175,7 +175,7 @@ async fn main() {
         .group(&GENERAL_GROUP)
         .group(&DEV_GROUP)
         .group(&VOICE_GROUP)
-        .group(&IMAGES_GROUP);
+        .group(&IMAGE_GROUP);
     
     let intents = GatewayIntents::all();
     
