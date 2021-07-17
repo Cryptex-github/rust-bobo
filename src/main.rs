@@ -174,7 +174,8 @@ async fn main() {
         .configure(|c| c.prefix("rbobo ").owners(owners))
         .group(&GENERAL_GROUP)
         .group(&DEV_GROUP)
-        .group(&VOICE_GROUP);
+        .group(&VOICE_GROUP)
+        .group(&IMAGES_GROUP);
     
     let intents = GatewayIntents::all();
     
