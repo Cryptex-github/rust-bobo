@@ -29,7 +29,7 @@ use eval::Expr;
 
 use reqwest;
 
-use image::traits::EncodableLayout;
+use image::EncodableLayout;
 
 use photon_rs::native::image_to_bytes;
 use photon_rs::native::open_image_from_bytes;
