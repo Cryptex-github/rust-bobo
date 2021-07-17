@@ -29,6 +29,7 @@ use eval::Expr;
 
 use reqwest;
 
+use image::ColorType;
 use image::codecs::png::PngEncoder;
 use image::EncodableLayout;
 
@@ -225,9 +226,9 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let byt = image_to_bytes(image);
     let mut buffer = Cursor::new(vec![]);
     let encoder = PngEncoder::new(&mut buffer);
-    encoder.encode(byt.as_bytes(), image.get_width(), image.get_height());
+    encoder.encode(byt.as_bytes(), image.get_width(), image.get_height(), ColorType.Rgba8);
     let encoded_image = buffer.into_inner();
-    let files = vec![(encoded_image, "inverted.png")];
+    let files = vec![(&encoded_image, "inverted.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m).await?;
     
     Ok(())
