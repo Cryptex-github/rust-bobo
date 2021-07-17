@@ -213,7 +213,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 
 #[command]
 async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
-    let avatar_url = msg.author.avatar_url().replace(".webp", ".png");
+    let avatar_url = msg.author.face().replace(".webp", ".png");
     let content = reqwest::get(avatar_url).await?.bytes().await?;
     let mut image = open_image_from_bytes(&content).unwrap();
     photon_invert(&mut image);
