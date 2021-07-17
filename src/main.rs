@@ -29,6 +29,8 @@ use eval::Expr;
 
 use reqwest;
 
+use image::traits::EncodableLayout;
+
 use photon_rs::native::image_to_bytes;
 use photon_rs::native::open_image_from_bytes;
 use photon_rs::channels::invert as photon_invert;
