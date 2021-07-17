@@ -223,10 +223,9 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let content = reqwest::get(avatar_url).await?.bytes().await?;
     let mut image = open_image_from_bytes(&content).unwrap();
     photon_invert(&mut image);
-    let byt = image_to_bytes(image);
     let mut buffer = Cursor::new(vec![]);
     let encoder = PngEncoder::new(&mut buffer);
-    encoder.encode(byt.as_bytes(), image.get_width(), image.get_height(), ColorType::Rgba8);
+    encoder.encode(image_to_bytes(&image).as_bytes(), image.get_width(), image.get_height(), ColorType::Rgba8);
     let encoded_image = buffer.into_inner();
     let files = vec![(encoded_image.as_bytes(), "inverted.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m).await?;
