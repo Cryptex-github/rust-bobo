@@ -219,6 +219,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 
 #[command]
 async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
+    let instant = Instant::now();
     let avatar_url = msg.author.face().replace(".webp", ".png");
     let content = reqwest::get(avatar_url).await?.bytes().await?;
     let mut image = open_image_from_bytes(&content).unwrap();
@@ -230,7 +231,7 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     encoder.encode(image_to_bytes(image).as_bytes(), width, height, ColorType::Rgba8);
     let encoded_image = buffer.into_inner();
     let files = vec![(encoded_image.as_bytes(), "inverted.png")];
-    msg.channel_id.send_files(&ctx.http, files, |m| m).await?;
+    msg.channel_id.send_files(&ctx.http, files, |m| m.content(format!("{}", instant.elapsed().as_millis()))).await?;
     
     Ok(())
 }
