@@ -257,7 +257,7 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     
 #[command]
 async fn rainbow(ctx: &Context, msg: &Message) -> CommandResult {
-    manip_image(msg, apply_gradient).await?;
+    manip_image(msg, apply_gradient).await;
     
     Ok(())
 }
