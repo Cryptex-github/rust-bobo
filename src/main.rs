@@ -219,7 +219,8 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 
-async fn manip_image(msg: &Message, photon_function) -> Result<(), Err> {
+async fn manip_image<T>(msg: &Message, photon_function: T) -> Result<(), Err> 
+    where T: Fn(&mut PhotonImage) -> () {
     let instant = Instant::now();
     let avatar_url = msg.author.face().replace(".webp", ".png");
     let content = reqwest::get(avatar_url).await?.bytes().await?;
