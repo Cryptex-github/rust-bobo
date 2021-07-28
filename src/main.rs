@@ -36,6 +36,7 @@ use image::EncodableLayout;
 use photon_rs::native::image_to_bytes;
 use photon_rs::native::open_image_from_bytes;
 use photon_rs::channels::invert as photon_invert;
+use photon_rs::multiple::apply_gradient;
 
 use serenity::framework::standard::Args;
 use serenity::model::id::UserId;
@@ -217,6 +218,25 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
     Ok(())
 }
 
+
+async fn manip_image(msg: &Message, photon_function) {
+    let instant = Instant::now();
+    let avatar_url = msg.author.face().replace(".webp", ".png");
+    let content = reqwest::get(avatar_url).await?.bytes().await?;
+    let mut image = open_image_from_bytes(&content).unwrap();
+    photon_function(&mut image);
+    let mut buffer = Cursor::new(vec![]);
+    let encoder = PngEncoder::new(&mut buffer);
+    let width = image.get_width();
+    let height = image.get_height();
+    let _ = encoder.encode(image_to_bytes(image).as_bytes(), width, height, ColorType::Rgba8);
+    let encoded_image = buffer.into_inner();
+    let files = vec![(encoded_image.as_bytes(), "inverted.png")];
+    msg.channel_id.send_files(&ctx.http, files, |m| m.content(format!("Process Time: {} ms", instant.elapsed().as_millis()))).await?;
+    
+    Ok(())
+}
+
 #[command]
 async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let instant = Instant::now();
@@ -232,6 +252,13 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     let encoded_image = buffer.into_inner();
     let files = vec![(encoded_image.as_bytes(), "inverted.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m.content(format!("Process Time: {} ms", instant.elapsed().as_millis()))).await?;
+    
+    Ok(())
+}
+    
+#[command]
+async fn rainbow(ctx: &Context, msg: &Message) -> CommandResult {
+    manip_image(msg, apply_gradient).await?;
     
     Ok(())
 }
