@@ -219,7 +219,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 
-async fn manip_image(msg: &Message, photon_function) {
+async fn manip_image(msg: &Message, photon_function {
     let instant = Instant::now();
     let avatar_url = msg.author.face().replace(".webp", ".png");
     let content = reqwest::get(avatar_url).await?.bytes().await?;
@@ -231,10 +231,9 @@ async fn manip_image(msg: &Message, photon_function) {
     let height = image.get_height();
     let _ = encoder.encode(image_to_bytes(image).as_bytes(), width, height, ColorType::Rgba8);
     let encoded_image = buffer.into_inner();
-    let files = vec![(encoded_image.as_bytes(), "inverted.png")];
+    let files = vec![(encoded_image.as_bytes(), "rustbobo_image_manip.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m.content(format!("Process Time: {} ms", instant.elapsed().as_millis()))).await?;
     
-    Ok(())
 }
 
 #[command]
