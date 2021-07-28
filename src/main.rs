@@ -53,7 +53,7 @@ use std::env;
 struct General;
 
 #[group]
-#[commands(invert)]
+#[commands(invert, rainbow)]
 struct Image;
 
 #[group]
