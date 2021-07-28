@@ -220,7 +220,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 
-async fn manip_image<T>(msg: &Message, photon_function: T) -> Result<(), Box<dyn std::error::Error>> 
+async fn manip_image<T>(msg: &Message, ctx: &Context, photon_function: T) -> Result<(), Box<dyn std::error::Error>> 
     where T: Fn(&mut PhotonImage) -> () {
     let instant = Instant::now();
     let avatar_url = msg.author.face().replace(".webp", ".png");
@@ -260,7 +260,7 @@ async fn invert(ctx: &Context, msg: &Message) -> CommandResult {
     
 #[command]
 async fn rainbow(ctx: &Context, msg: &Message) -> CommandResult {
-    manip_image(msg, apply_gradient).await;
+    manip_image(msg, ctx, apply_gradient).await;
     
     Ok(())
 }
