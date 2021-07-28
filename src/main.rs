@@ -234,6 +234,7 @@ async fn manip_image(msg: &Message, photon_function) -> Result<(), Err> {
     let files = vec![(encoded_image.as_bytes(), "rustbobo_image_manip.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m.content(format!("Process Time: {} ms", instant.elapsed().as_millis()))).await?;
     
+    Ok(())
 }
 
 #[command]
