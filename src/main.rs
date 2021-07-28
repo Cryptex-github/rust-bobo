@@ -33,6 +33,7 @@ use image::ColorType;
 use image::codecs::png::PngEncoder;
 use image::EncodableLayout;
 
+use photon_rs::PhotonImage;
 use photon_rs::native::image_to_bytes;
 use photon_rs::native::open_image_from_bytes;
 use photon_rs::channels::invert as photon_invert;
@@ -219,7 +220,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 
-async fn manip_image<T>(msg: &Message, photon_function: T) -> Result<(), Err> 
+async fn manip_image<T>(msg: &Message, photon_function: T) -> Result<(), Box<dyn std::error::Error>> 
     where T: Fn(&mut PhotonImage) -> () {
     let instant = Instant::now();
     let avatar_url = msg.author.face().replace(".webp", ".png");
