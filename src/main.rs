@@ -222,11 +222,11 @@ async fn main() {
         .register_songbird_with(songbird)
         .await
         .expect("Error creating client");
-    {
-        let mut data = client.data.write().await;
+//     {
+//         let mut data = client.data.write().await;
         
-        data.insert::<Pool>(pool);
-    }
+//         data.insert::<Pool>(pool);
+//     }
     // start listening for events by starting a single shard
     if let Err(why) = client.start().await {
         println!("An error occurred while running the client: {:?}", why);
