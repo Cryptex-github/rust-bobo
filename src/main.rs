@@ -241,17 +241,17 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
         msg.channel_id.broadcast_typing(&ctx.http).await?;
         instant.elapsed().as_millis() as f64
     };
-    let pool = {
-        let data_read = ctx.data.read().await;
-        data_read.get::<Pool>().unwrap().clone()
-    };
-    let db_latency = {
-        let instant = Instant::now();
-        sqlx::query!("SELECT 1").execute(&pool).await?;
-        instant.elapsed().as_millis() as f64
-    };
+//     let pool = {
+//         let data_read = ctx.data.read().await;
+//         data_read.get::<Pool>().unwrap().clone()
+//     };
+//     let db_latency = {
+//         let instant = Instant::now();
+//         sqlx::query!("SELECT 1").execute(&pool).await?;
+//         instant.elapsed().as_millis() as f64
+//     };
         
-    msg.reply(ctx, format!("Pong :O API latency is {} and PostgreSQL ping is {}", api_latency, db_latency)).await?;
+    msg.reply(ctx, format!("Pong :O API latency is {}", api_latency)).await?;
 
     Ok(())
 }
