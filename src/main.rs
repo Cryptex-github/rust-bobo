@@ -14,6 +14,7 @@ use serenity::{
         id::ChannelId,
         misc::Mentionable
     },
+    prelude::{Context, EventHandler, TypeMapKey},
 };
 
 use songbird::{
@@ -33,6 +34,8 @@ use image::ColorType;
 use image::codecs::png::PngEncoder;
 use image::EncodableLayout;
 
+use sqlx::postgres::{PgPool, PgPoolOptions};
+
 use photon_rs::PhotonImage;
 use photon_rs::native::image_to_bytes;
 use photon_rs::native::open_image_from_bytes;
@@ -45,9 +48,18 @@ use serenity::model::id::UserId;
 use serenity::client::bridge::gateway::GatewayIntents;
 
 use std::io::Cursor;
+use std::path::Path;
 use std::collections::hash_set::HashSet;
 use std::time::Instant;
 use std::env;
+
+
+struct Pool;
+
+impl TypeMapKey for Pool {
+    type Value = PgPool;
+}
+
 
 #[group]
 #[commands(ping)]
@@ -191,6 +203,14 @@ async fn main() {
             .decode_mode(DecodeMode::Decode)
             .crypto_mode(CryptoMode::Normal),
     );
+    
+    let pool = PgPoolOptions::new()
+        .max_connections(10)
+        .socket(Path::new("/var/run/postgresql").as_ref())
+        .user("postgres1")
+        .password("postgres")
+        .database("rustbobo")
+        .connect().await?;
 
     // Login with a bot token from the environment
     let token = env::var("DISCORD_TOKEN").expect("token");
@@ -201,7 +221,11 @@ async fn main() {
         .register_songbird_with(songbird)
         .await
         .expect("Error creating client");
-
+    {
+        let mut data = client.data.write().await;
+        
+        data.insert::<Pool>(pool);
+    }
     // start listening for events by starting a single shard
     if let Err(why) = client.start().await {
         println!("An error occurred while running the client: {:?}", why);
@@ -215,7 +239,17 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
         msg.channel_id.broadcast_typing(&ctx.http).await?;
         instant.elapsed().as_millis() as f64
     };
-    msg.reply(ctx, format!("Pong :O API latency is {}", api_latency)).await?;
+    let pool = {
+        let data_read = ctx.data.read().await;
+        data_read.get::<Pool>().unwrap().clone()
+    };
+    let db_latency = {
+        let instant = Instant::now();
+        sqlx::query!("SELECT 1").execute(&pool).await?;
+        instant.elapsed().as_millis() as f64
+    };
+        
+    msg.reply(ctx, format!("Pong :O API latency is {} and PostgreSQL ping is {}", api_latency, db_latency)).await?;
 
     Ok(())
 }
