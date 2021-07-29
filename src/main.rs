@@ -49,7 +49,6 @@ use serenity::model::id::UserId;
 use serenity::client::bridge::gateway::GatewayIntents;
 
 use std::io::Cursor;
-use std::path::Path;
 use std::collections::hash_set::HashSet;
 use std::time::Instant;
 use std::env;
