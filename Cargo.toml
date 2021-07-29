@@ -19,7 +19,6 @@ sqlx = { version = "0.5", features = ["runtime-tokio-rustls", "postgres"] }
 eval = "0.4"
 
 [dependencies.serenity]
-git="https://github.com/serenity-rs/serenity"
 default-features = false
 features = [
     "builder",
@@ -36,3 +35,4 @@ features = [
     "rustls_backend",
     "unstable_discord_api",
 ]
+version="0.10"
