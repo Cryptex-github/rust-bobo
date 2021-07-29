@@ -221,7 +221,7 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 
-async fn manip_filter_image<T>(msg: &Message, ctx: &Context, filter: &str) -> Result<(), Box<dyn std::error::Errror>> {
+async fn manip_filter_image<T>(msg: &Message, ctx: &Context, filter: &str) -> Result<(), Box<dyn std::error::Error>> {
     let instant = Instant::now();
     let avatar_url = msg.author.face().replace(".webp", ".png");
     let content = reqwest::get(avatar_url).await?.bytes().await?;
