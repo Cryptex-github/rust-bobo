@@ -34,6 +34,7 @@ use image::ColorType;
 use image::codecs::png::PngEncoder;
 use image::EncodableLayout;
 
+use sqlx;
 use sqlx::postgres::{PgPool, PgPoolOptions};
 
 use photon_rs::PhotonImage;
@@ -206,11 +207,12 @@ async fn main() {
     
     let pool = PgPoolOptions::new()
         .max_connections(10)
-//         .socket(Path::new("/var/run/postgresql").as_ref())
-//         .user("postgres1")
-//         .password("postgres")
-//         .database("rustbobo")
-        .connect("postgresql://postgres1:postgres@/var/run/postgresql:5432/rustbobo").await;
+        .socket(Path::new("/var/run/postgresql").as_ref())
+        .user("postgres1")
+        .password("postgres")
+        .database("rustbobo")
+        // "postgresql://postgres1:postgres@/var/run/postgresql:5432/rustbobo"
+        .connect().await;
 
     // Login with a bot token from the environment
     let token = env::var("DISCORD_TOKEN").expect("token");
