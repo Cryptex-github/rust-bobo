@@ -206,11 +206,11 @@ async fn main() {
     
     let pool = PgPoolOptions::new()
         .max_connections(10)
-        .socket(Path::new("/var/run/postgresql").as_ref())
-        .user("postgres1")
-        .password("postgres")
-        .database("rustbobo")
-        .connect().await;
+//         .socket(Path::new("/var/run/postgresql").as_ref())
+//         .user("postgres1")
+//         .password("postgres")
+//         .database("rustbobo")
+        .connect("postgresql://postgres1:postgres@/var/run/postgresql:5432/rustbobo").await;
 
     // Login with a bot token from the environment
     let token = env::var("DISCORD_TOKEN").expect("token");
