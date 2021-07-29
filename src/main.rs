@@ -215,6 +215,7 @@ async fn main() {
     let mut client = Client::builder(token)
         .event_handler(Handler)
         .framework(framework)
+        .application_id(865043362549989376)
         .intents(intents)
         .register_songbird_with(songbird)
         .await
