@@ -308,8 +308,8 @@ async fn radio(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 #[command]
-async fn diamente(ctx: &Context, msg: &Message) -> CommandResult {
-    let _ = manip_filter_image(msg, ctx, "diamente").await;
+async fn diamante(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "diamante").await;
     
     Ok(())
 }
