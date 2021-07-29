@@ -54,7 +54,7 @@ use std::env;
 struct General;
 
 #[group]
-#[commands(invert, rainbow, oceanic, islands)]
+#[commands(invert, rainbow, oceanic, islands, marine, seagreen, flagblue, liquid, diamante, radio, twenties, rosetint, mauve, bluechrome, vintage, perfume)]
 struct Image;
 
 #[group]
@@ -254,6 +254,90 @@ async fn manip_image<T>(msg: &Message, ctx: &Context, photon_function: T) -> Res
     let encoded_image = buffer.into_inner();
     let files = vec![(encoded_image.as_bytes(), "rustbobo_image_manip.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m.content(format!("Process Time: {} ms", instant.elapsed().as_millis()))).await?;
+    
+    Ok(())
+}
+
+#[command]
+async fn perfume(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "perfume").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn vintage(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "vintage").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn bluechrome(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "bluechrome").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn mauve(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "mauve").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn rosetint(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "rosetint").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn twenties(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "twenties").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn radio(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "radio").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn diamente(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "diamente").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn liquid(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "liquid").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn flagblue(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "flagblue").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn seagreen(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "seagreen").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn marine(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "marine").await;
     
     Ok(())
 }
