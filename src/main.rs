@@ -221,12 +221,12 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 
-async fn manip_filter_image<T>(msg: &Message, ctx: &Context, filter: &str) -> Result<(), Box<dyn std::error::Error>> {
+async fn manip_filter_image<T>(msg: &Message, ctx: &Context, filter_name: &str) -> Result<(), Box<dyn std::error::Error>> {
     let instant = Instant::now();
     let avatar_url = msg.author.face().replace(".webp", ".png");
     let content = reqwest::get(avatar_url).await?.bytes().await?;
     let mut image = open_image_from_bytes(&content).unwrap();
-    filter(&mut image, filter);
+    filter(&mut image, filter_name);
     let mut buffer = Cursor::new(vec![]);
     let encoder = PngEncoder::new(&mut buffer);
     let width = image.get_width();
