@@ -14,7 +14,7 @@ use serenity::{
         id::ChannelId,
         misc::Mentionable
     },
-    prelude::{Context, EventHandler, TypeMapKey},
+    prelude::TypeMapKey,
 };
 
 use songbird::{
@@ -210,7 +210,7 @@ async fn main() {
         .user("postgres1")
         .password("postgres")
         .database("rustbobo")
-        .connect().await?;
+        .connect().await;
 
     // Login with a bot token from the environment
     let token = env::var("DISCORD_TOKEN").expect("token");
