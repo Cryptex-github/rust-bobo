@@ -36,4 +36,3 @@ features = [
     "rustls_backend",
     "unstable_discord_api",
 ]
-version = "0.10"
