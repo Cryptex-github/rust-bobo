@@ -38,6 +38,7 @@ use photon_rs::native::image_to_bytes;
 use photon_rs::native::open_image_from_bytes;
 use photon_rs::channels::invert as photon_invert;
 use photon_rs::multiple::apply_gradient;
+use photon_rs::filters::filter;
 
 use serenity::framework::standard::Args;
 use serenity::model::id::UserId;
@@ -53,7 +54,7 @@ use std::env;
 struct General;
 
 #[group]
-#[commands(invert, rainbow)]
+#[commands(invert, rainbow, oceanic, islands)]
 struct Image;
 
 #[group]
@@ -220,7 +221,26 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
 }
 
 
-async fn manip_image<T>(msg: &Message, ctx: &Context, photon_function: T) -> Result<(), Box<dyn std::error::Error>> 
+async fn manip_filter_image<T>(msg: &Message, ctx: &Context, filter: &str) -> Result<(), Box<dyn std::error::Error>> 
+    where T: Fn(&mut PhotonImage) -> () {
+    let instant = Instant::now();
+    let avatar_url = msg.author.face().replace(".webp", ".png");
+    let content = reqwest::get(avatar_url).await?.bytes().await?;
+    let mut image = open_image_from_bytes(&content).unwrap();
+    filter(&mut image, filter);
+    let mut buffer = Cursor::new(vec![]);
+    let encoder = PngEncoder::new(&mut buffer);
+    let width = image.get_width();
+    let height = image.get_height();
+    let _ = encoder.encode(image_to_bytes(image).as_bytes(), width, height, ColorType::Rgba8);
+    let encoded_image = buffer.into_inner();
+    let files = vec![(encoded_image.as_bytes(), "rustbobo_image_manip.png")];
+    msg.channel_id.send_files(&ctx.http, files, |m| m.content(format!("Process Time: {} ms", instant.elapsed().as_millis()))).await?;
+    
+    Ok(())
+}
+
+async fn manip_image<T>(msg: &Message, ctx: &Context, photon_function: Y) -> Result<(), Box<dyn std::error::Error>> 
     where T: Fn(&mut PhotonImage) -> () {
     let instant = Instant::now();
     let avatar_url = msg.author.face().replace(".webp", ".png");
@@ -235,6 +255,20 @@ async fn manip_image<T>(msg: &Message, ctx: &Context, photon_function: T) -> Res
     let encoded_image = buffer.into_inner();
     let files = vec![(encoded_image.as_bytes(), "rustbobo_image_manip.png")];
     msg.channel_id.send_files(&ctx.http, files, |m| m.content(format!("Process Time: {} ms", instant.elapsed().as_millis()))).await?;
+    
+    Ok(())
+}
+
+#[command]
+async fn islands(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "islands").await;
+    
+    Ok(())
+}
+
+#[command]
+async fn oceanic(ctx: &Context, msg: &Message) -> CommandResult {
+    let _ = manip_filter_image(msg, ctx, "oceanic").await;
     
     Ok(())
 }
