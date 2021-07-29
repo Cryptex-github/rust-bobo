@@ -34,8 +34,6 @@ use image::ColorType;
 use image::codecs::png::PngEncoder;
 use image::EncodableLayout;
 
-use sqlx;
-use sqlx::postgres::{PgPool, PgPoolOptions};
 
 use photon_rs::PhotonImage;
 use photon_rs::native::image_to_bytes;
