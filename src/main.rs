@@ -185,9 +185,7 @@ impl VoiceEventHandler for Receiver {
 #[tokio::main]
 #[instrument]
 async fn main() {
-    tracing_subscriber::fmt()
-        .with_env_filter("RUST_LOG=debug")
-        .init();
+    tracing_subscriber::fmt::init();
     let mut owners = HashSet::new();
     owners.insert(UserId(590323594744168494));
     let framework = StandardFramework::new()
