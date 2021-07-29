@@ -52,11 +52,11 @@ use std::time::Instant;
 use std::env;
 
 
-struct Pool;
+// struct Pool;
 
-impl TypeMapKey for Pool {
-    type Value = PgPool;
-}
+// impl TypeMapKey for Pool {
+//     type Value = PgPool;
+// }
 
 
 #[group]
