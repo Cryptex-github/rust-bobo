@@ -45,6 +45,8 @@ use serenity::framework::standard::Args;
 use serenity::model::id::UserId;
 use serenity::client::bridge::gateway::GatewayIntents;
 
+use tracing::instrument;
+
 use std::io::Cursor;
 use std::collections::hash_set::HashSet;
 use std::time::Instant;
@@ -181,8 +183,11 @@ impl VoiceEventHandler for Receiver {
 
 
 #[tokio::main]
+#[instrument]
 async fn main() {
-    tracing_subscriber::fmt::init();
+    tracing_subscriber::fmt()
+        .with_env_filter("RUST_LOG=debug")
+        .init();
     let mut owners = HashSet::new();
     owners.insert(UserId(590323594744168494));
     let framework = StandardFramework::new()
