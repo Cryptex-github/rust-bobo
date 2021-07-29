@@ -1,6 +1,5 @@
 use serenity::async_trait;
 use serenity::client::{Client, Context, EventHandler};
-use serenity::prelude::TypeMapKey;
 use serenity::framework::standard::{
     StandardFramework,
     CommandResult,
