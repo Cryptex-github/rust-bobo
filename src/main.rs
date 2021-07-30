@@ -196,8 +196,8 @@ async fn help_command(
 #[tokio::main]
 #[instrument]
 async fn main() {
-    let mut filter = EnvFilter::try_from_default_env()?
-        .add_directive("songbird=warn".parse()?);
+    let mut filter = EnvFilter::try_from_default_env()
+        .add_directive(Directive::from_str("songbird=warn"));
     tracing_subscriber::fmt()
         .with_env_filter(filter)
         .init();
