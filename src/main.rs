@@ -34,6 +34,7 @@ use serenity::framework::standard::Args;
 use serenity::model::id::UserId;
 
 use tracing::instrument;
+use tracing_subscriber::filter::Directive;
 
 use std::collections::hash_set::HashSet;
 use std::env;
