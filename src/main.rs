@@ -196,10 +196,8 @@ async fn help_command(
 #[tokio::main]
 #[instrument]
 async fn main() {
-    let mut filter = EnvFilter::tryfrom_default_env().unwrap()
-        .add_directive(Directive::from_str("songbird=warn"));
     tracing_subscriber::fmt()
-        .with_env_filter(filter)
+        .with_env_filter(EnvFilter::from_default_env())
         .init();
     let mut owners = HashSet::new();
     owners.insert(UserId(590323594744168494));
