@@ -38,5 +38,10 @@ features = [
 ]
 # version = "0.10"
 
+[patch.crates-io.serenity]
+git = "https://github.com/serenity-rs/serenity"
+branch = "current"
+
+
 [profile.release]
 lto = "thin"
