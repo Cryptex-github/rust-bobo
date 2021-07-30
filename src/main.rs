@@ -195,7 +195,9 @@ async fn help_command(
 #[tokio::main]
 #[instrument]
 async fn main() {
-    tracing_subscriber::fmt::init();
+    tracing_subscriber::fmt()
+        .with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
+        .init();
     let mut owners = HashSet::new();
     owners.insert(UserId(590323594744168494));
     let framework = StandardFramework::new()
