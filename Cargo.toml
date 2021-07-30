@@ -1,6 +1,6 @@
 [package]
 name = "rust-bobo"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["cryptex"]
 edition = "2018"
 
@@ -19,6 +19,7 @@ sqlx = { version = "0.5", features = ["runtime-tokio-rustls", "postgres"] }
 eval = "0.4"
 
 [dependencies.serenity]
+git = "https://github.com/serenity-rs/serenity"
 default-features = false
 features = [
     "builder",
@@ -35,4 +36,7 @@ features = [
     "rustls_backend",
     "unstable_discord_api",
 ]
-version="0.10"
+# version = "0.10"
+
+[profile.release]
+lto = "thin"
