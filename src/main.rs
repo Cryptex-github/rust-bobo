@@ -34,7 +34,7 @@ use serenity::framework::standard::Args;
 use serenity::model::id::UserId;
 
 use tracing::instrument;
-use tracing_subscriber::filter::Directive;
+use tracing_subscriber::filter::{EnvFilter, Directive};
 
 use std::collections::hash_set::HashSet;
 use std::env;
@@ -196,8 +196,10 @@ async fn help_command(
 #[tokio::main]
 #[instrument]
 async fn main() {
+    let mut filter = EnvFilter::try_from_default_env()?
+        .add_directive("songbird=warn".parse()?);
     tracing_subscriber::fmt()
-        .with_env_filter(tracing_subscriber::EnvFilter::try_from_default_env().add_directive("songbird=warn".parse()?))
+        .with_env_filter(filter)
         .init();
     let mut owners = HashSet::new();
     owners.insert(UserId(590323594744168494));
