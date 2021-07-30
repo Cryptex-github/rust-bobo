@@ -3,7 +3,10 @@ use serenity::client::{Client, Context, EventHandler};
 use serenity::framework::standard::{
     macros::{command, group},
     CommandResult, StandardFramework,
+    help_commands, HelpOptions,
+    CommandGroup,
 };
+use serenity::framework::standard::macros::help;
 use serenity::model::{channel::Message, id::ChannelId, misc::Mentionable};
 
 use eval::Expr;
@@ -176,6 +179,19 @@ impl VoiceEventHandler for Receiver {
     }
 }
 
+#[help]
+async fn help_command(
+   context: &Context,
+   msg: &Message,
+   args: Args,
+   help_options: &'static HelpOptions,
+   groups: &[&'static CommandGroup],
+   owners: HashSet<UserId>
+) -> CommandResult {
+    let _ = help_commands::with_embeds(context, msg, args, help_options, groups, owners).await;
+    Ok(())
+}
+
 #[tokio::main]
 #[instrument]
 async fn main() {
@@ -187,7 +203,8 @@ async fn main() {
         .group(&GENERAL_GROUP)
         .group(&DEV_GROUP)
         .group(&VOICE_GROUP)
-        .group(&IMAGE_GROUP);
+        .group(&IMAGE_GROUP)
+        .help(&HELP_COMMAND);
 
     let intents = GatewayIntents::all();
 
