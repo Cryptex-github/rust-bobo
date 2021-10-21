@@ -45,4 +45,4 @@ branch = "current"
 
 
 [profile.release]
-lto = "thin"
+lto = "fat"
